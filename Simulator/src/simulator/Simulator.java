@@ -1,21 +1,22 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This is the part that controls the logic of the console
  */
 package simulator;
 
-/**
- *
- * @author Eduardo
- */
-public class Simulator {
+import javax.swing.JFrame;
 
-    /**
-     * @param args the command line arguments
-     */
+public class Simulator extends JFrame{
+
+    public Simulator(){
+        this.setLayout(null);
+        Controller input = new Controller();
+        addKeyListener(input);
+    }
+    
     public static void main(String[] args) {
-        // TODO code application logic here
+        Simulator sim = new Simulator();
+        sim.setVisible(true);
+        sim.setBounds(0,0,1,1);
     }
     
 }
