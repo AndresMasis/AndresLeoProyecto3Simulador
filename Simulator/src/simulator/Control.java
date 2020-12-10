@@ -7,10 +7,12 @@ package simulator;
 
 import java.awt.event.KeyEvent;
 import java.io.DataOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+//import org.json.simple.JSONObject;
 
 /**
  *
@@ -25,6 +27,18 @@ public class Control extends javax.swing.JFrame {
         initComponents();
     }
 
+    /*public void JSONgenerator(){
+        JSONObject obj = new JSONObject();
+        obj.put("option","");
+        
+        try (FileWriter file = new FileWriter("myJSON.json")){
+            file.write(obj.toString());
+            file.flush();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }*/
+    
     public void communication(int input) {
         // Gets the IP address of this device
         InetAddress ip;
