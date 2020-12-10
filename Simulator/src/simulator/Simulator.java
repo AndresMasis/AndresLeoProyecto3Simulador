@@ -1,24 +1,40 @@
-  
 /*
  * This is the part that controls the logic of the console
  */
 package simulator;
 
-import javax.swing.JFrame;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+public class Simulator implements Runnable {
 
-
-public class Simulator extends JFrame{
-
-/*    public Simulator(){
-        this.setLayout(null);
-        Controller input = new Controller();
-        addKeyListener(input);
+    public Simulator() {
+        Thread mihilo = new Thread(this);
+        mihilo.start();
     }
-    
-     public static void main(String[] args) {
-        Simulator sim = new Simulator();
-        sim.setVisible(true);
-        sim.setBounds(0,0,1,1);
-    }*/
+
+    @Override
+    public void run() {
+        try {
+            ServerSocket server = new ServerSocket(9999);
+            while (true) {
+                Socket misocket = server.accept();
+                DataInputStream flujo_entrada = new DataInputStream(misocket.getInputStream());
+                int mensaje = flujo_entrada.readInt();
+                System.out.println("A la consola le llego un " + mensaje);
+                misocket.close();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Simulator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void main(String args[]) {
+        new Simulator();
+    }
+
 }

@@ -6,6 +6,11 @@
 package simulator;
 
 import java.awt.event.KeyEvent;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  *
@@ -18,6 +23,36 @@ public class Control extends javax.swing.JFrame {
      */
     public Control() {
         initComponents();
+    }
+
+    public void communication(int input) {
+        // Gets the IP address of this device
+        InetAddress ip;
+        try {
+            ip = InetAddress.getLocalHost();
+            System.out.println("The IP adress of this system is: " + ip);
+
+            // Creates the socket
+            try {
+                Socket misocket = new Socket(ip, 9999);
+                DataOutputStream flujo_salida = new DataOutputStream(misocket.getOutputStream());
+                flujo_salida.writeInt(input);
+                flujo_salida.close();
+                
+            } catch (UnknownHostException e) {
+                // Error creating the socket
+                e.printStackTrace();
+
+            } catch (IOException e) {
+                // Error creating the socket
+                e.printStackTrace();
+            }
+
+        } catch (UnknownHostException e) {
+            // Error getting the IP
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -54,26 +89,26 @@ public class Control extends javax.swing.JFrame {
     private void userInput(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_userInput
         int code = evt.getKeyCode();
 
-                if (code == KeyEvent.VK_UP) {
-                    // The up arrow has been pressed
-                    System.out.println("UP");
+        if (code == KeyEvent.VK_UP) {
+            // The up arrow has been pressed
+            this.communication(1);
 
-                } else if (code == KeyEvent.VK_DOWN) {
-                    // The down arrow has been pressed
-                    System.out.println("DOWN");
+        } else if (code == KeyEvent.VK_DOWN) {
+            // The down arrow has been pressed
+            this.communication(2);
 
-                } else if (code == KeyEvent.VK_LEFT) {
-                    // The left arrow has been pressed
-                    System.out.println("LEFT");
+        } else if (code == KeyEvent.VK_LEFT) {
+            // The left arrow has been pressed
+            this.communication(3);
 
-                } else if (code == KeyEvent.VK_RIGHT) {
-                    // The right arrow has been pressed
-                    System.out.println("RIGHT");
+        } else if (code == KeyEvent.VK_RIGHT) {
+            // The right arrow has been pressed
+            this.communication(4);
 
-                } else if (code == KeyEvent.VK_SPACE) {
-                    System.out.println("SPACE");
-                    // The spacebar has been pressed
-                }
+        } else if (code == KeyEvent.VK_SPACE) {
+            // The spacebar has been pressed
+            this.communication(5);
+        }
     }//GEN-LAST:event_userInput
 
     /**
