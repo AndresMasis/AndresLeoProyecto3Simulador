@@ -6,67 +6,19 @@
 package simulator;
 
 import java.awt.event.KeyEvent;
-import java.io.DataOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-//import org.json.simple.JSONObject;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
- *
  * @author Andrés
  */
-public class Control extends javax.swing.JFrame {
+public class Control extends javax.swing.JFrame implements Observer{
 
     /**
      * Creates new form NewJFrame
      */
     public Control() {
         initComponents();
-    }
-
-    /*public void JSONgenerator(){
-        JSONObject obj = new JSONObject();
-        obj.put("option","");
-        
-        try (FileWriter file = new FileWriter("myJSON.json")){
-            file.write(obj.toString());
-            file.flush();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }*/
-    
-    public void communication(int input) {
-        // Gets the IP address of this device
-        InetAddress ip;
-        try {
-            ip = InetAddress.getLocalHost();
-            System.out.println("The IP adress of this system is: " + ip);
-
-            // Creates the socket
-            try {
-                Socket misocket = new Socket(ip, 9999);
-                DataOutputStream flujo_salida = new DataOutputStream(misocket.getOutputStream());
-                flujo_salida.writeInt(input);
-                flujo_salida.close();
-                
-            } catch (UnknownHostException e) {
-                // Error creating the socket
-                e.printStackTrace();
-
-            } catch (IOException e) {
-                // Error creating the socket
-                e.printStackTrace();
-            }
-
-        } catch (UnknownHostException e) {
-            // Error getting the IP
-            e.printStackTrace();
-        }
-
     }
 
     /**
@@ -102,27 +54,29 @@ public class Control extends javax.swing.JFrame {
 
     private void userInput(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_userInput
         int code = evt.getKeyCode();
+        Communication s = new Communication();
 
         if (code == KeyEvent.VK_UP) {
             // The up arrow has been pressed
-            this.communication(1);
+            s.sendSocket(1);
 
         } else if (code == KeyEvent.VK_DOWN) {
             // The down arrow has been pressed
-            this.communication(2);
+            s.sendSocket(2);
 
         } else if (code == KeyEvent.VK_LEFT) {
             // The left arrow has been pressed
-            this.communication(3);
+            s.sendSocket(3);
 
         } else if (code == KeyEvent.VK_RIGHT) {
             // The right arrow has been pressed
-            this.communication(4);
+            s.sendSocket(4);
 
         } else if (code == KeyEvent.VK_SPACE) {
             // The spacebar has been pressed
-            this.communication(5);
+            s.sendSocket(5);
         }
+
     }//GEN-LAST:event_userInput
 
     /**
@@ -159,6 +113,11 @@ public class Control extends javax.swing.JFrame {
                 new Control().setVisible(true);
             }
         });
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
