@@ -1,38 +1,33 @@
 package simulator;
 
-import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
-import java.awt.Image;
-import java.awt.Graphics;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import java.util.LinkedList;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.JLabel;
 import javax.swing.Timer; 
 
+
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public final class Screen extends javax.swing.JFrame {
     
     int screen[][]= new int [50][50];
     javax.swing.JLabel[][] screenLab = new javax.swing.JLabel [50][50];
+    
+    ServerSocket server;  
+    String mess;
         /*
         0 = white
         1 = black
-        2 = read
+        2 = red
         3 = lime
         4 = blue
         5 = yellow
@@ -50,10 +45,16 @@ public final class Screen extends javax.swing.JFrame {
     
     public Screen() throws IOException{ //Start process
         this.initComponents();       
-        this.setLocationRelativeTo(null); 
-        
-        startSc();
-        printCol();    
+        this.setLocationRelativeTo(null);         
+        try{
+            server = new ServerSocket(9995);
+        } catch (IOException ex) {
+            Logger.getLogger(Pacman.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+        startSc();     
+        printCol();
+        cliente();
     }  
     
     void startSc(){//Set screen with 0(white), and set screenLab with new Labels
@@ -61,7 +62,7 @@ public final class Screen extends javax.swing.JFrame {
         int colum = 0;   
         while (colum != 50){
             while (fil != 50){   
-                screen[fil][colum] = 0;
+                screen[fil][colum] = 9;
                 screenLab[fil][colum] = new javax.swing.JLabel();
                 fil++;
             }
@@ -139,14 +140,58 @@ public final class Screen extends javax.swing.JFrame {
                 posF = 8;
                 posC += 16;
                 fila = 0;
-                columna++;                
-            } 
-        }    
+                columna++; 
+                }
+            }
+         
+           
+    
+    public void seeScre(String mensaje){
+        JSONObject json1 = new JSONObject(mensaje);               
+        JSONArray json2 = (JSONArray) json1.get("list"); 
+        int elements = json2.length();
+        elements--;
+        int count = 0;
+        int fil;
+        int colum;
+        int color;   
+        JSONArray array; 
+        while(count != elements){    
+            array = (JSONArray)json2.get(count);
+            fil = (int)array.get(0);
+            colum = (int)array.get(1);
+            color = (int)array.get(2);
+            screen[fil][colum] = color;
+            count++;
+        }
+        printCol();
+        
+    }
     
     
+
+    public void cliente(){
+        Timer timer = new Timer(1, new ActionListener() {
+        public void actionPerformed(ActionEvent ae) {
+                try{
+                    //ServerSocket server = new ServerSocket(9995);
+                    //while (true) {
+                        Socket mySocket = server.accept();
+                        DataInputStream input = new DataInputStream(mySocket.getInputStream());
+                        String mensaje = input.readUTF();
+                        seeScre(mensaje);
+                        mySocket.close();
+                    //}
+                } catch (IOException ex) {
+                    Logger.getLogger(Screen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+    }});
+        
+    timer.start();  
+    }
     
     
-    
+
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -226,16 +271,17 @@ public final class Screen extends javax.swing.JFrame {
             @Override
             public void run() {
                 try {
-                    new Screen().setVisible(true);
+                    new Screen().setVisible(true);                    
                 } catch (IOException ex) {
                     Logger.getLogger(Screen.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
+        
     }
-
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel mapa;
     // End of variables declaration//GEN-END:variables
+
 }

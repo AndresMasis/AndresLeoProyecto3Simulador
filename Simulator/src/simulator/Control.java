@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package simulator;
 
 import java.awt.event.KeyEvent;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * @author Andrés
- */
+
 public class Control extends javax.swing.JFrame implements Observer{
 
     /**
@@ -55,26 +48,26 @@ public class Control extends javax.swing.JFrame implements Observer{
     private void userInput(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_userInput
         int code = evt.getKeyCode();
         Communication s = new Communication();
-
+        
         if (code == KeyEvent.VK_UP) {
             // The up arrow has been pressed
-            s.sendSocket(1);
+            s.sendSocket(1,9999);
 
         } else if (code == KeyEvent.VK_DOWN) {
             // The down arrow has been pressed
-            s.sendSocket(2);
+            s.sendSocket(2,9999);
 
         } else if (code == KeyEvent.VK_LEFT) {
             // The left arrow has been pressed
-            s.sendSocket(3);
+            s.sendSocket(3,9999);
 
         } else if (code == KeyEvent.VK_RIGHT) {
             // The right arrow has been pressed
-            s.sendSocket(4);
+            s.sendSocket(4,9999);
 
         } else if (code == KeyEvent.VK_SPACE) {
             // The spacebar has been pressed
-            s.sendSocket(5);
+            s.sendSocket(5,9999);
         }
 
     }//GEN-LAST:event_userInput

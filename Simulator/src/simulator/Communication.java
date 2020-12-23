@@ -1,6 +1,7 @@
 package simulator;
 
-import org.json.simple.JSONObject;
+//import org.json.simple.JSONObject;        este import no me sirve xD
+import org.json.JSONObject;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileWriter;
@@ -16,7 +17,7 @@ public class Communication implements Runnable {
 
 
     
-    public void sendSocket(int number) {
+    public void sendSocket(int number,int cable) {
         // Gets the IP address of this device
         InetAddress ip;
         try {
@@ -24,11 +25,10 @@ public class Communication implements Runnable {
 
             // Creates the socket
             try {
-                Socket mySocket = new Socket(ip, 9999);
+                Socket mySocket = new Socket(ip, cable);
                 DataOutputStream output = new DataOutputStream(mySocket.getOutputStream());
                 output.writeInt(number);
                 output.close();
-                
             } catch (UnknownHostException e) {
                 // Error creating the socket
                 e.printStackTrace();
@@ -43,21 +43,47 @@ public class Communication implements Runnable {
             e.printStackTrace();
         }
     }
+       
+    public void sendSocScre(String number,int cable) {
+        // Gets the IP address of this device
+        InetAddress ip;
+        try {
+            ip = InetAddress.getLocalHost();
 
+            // Creates the socket
+            try {
+                Socket mySocket = new Socket(ip, cable);
+                DataOutputStream output = new DataOutputStream(mySocket.getOutputStream());
+                output.writeUTF(number);
+                output.close();
+            } catch (UnknownHostException e) {
+                // Error creating the socket
+                e.printStackTrace();
+
+            } catch (IOException e) {
+                // Error creating the socket
+                e.printStackTrace();
+            }
+
+        } catch (UnknownHostException e) {
+            // Error getting the IP
+            e.printStackTrace();
+        }
+    }
     @Override
-    public void run() {
+    public void run() {/*
         try {
             ServerSocket server = new ServerSocket(9999);
             while (true) {
                 Socket mySocket = server.accept();
                 DataInputStream input = new DataInputStream(mySocket.getInputStream());
                 int mensaje = input.readInt();
-                System.out.println("A la consola le llego un " + mensaje);
+                System.out.println("A comunication le llego un " + mensaje);
                 mySocket.close();
             }
         } catch (IOException ex) {
             Logger.getLogger(Simulator.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }
 
 }
