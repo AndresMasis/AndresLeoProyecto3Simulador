@@ -14,9 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Communication implements Runnable {
-
-
-    
+   
     public void sendSocket(int number,int cable) {
         // Gets the IP address of this device
         InetAddress ip;
@@ -71,19 +69,7 @@ public class Communication implements Runnable {
         }
     }
     @Override
-    public void run() {/*
-        try {
-            ServerSocket server = new ServerSocket(9999);
-            while (true) {
-                Socket mySocket = server.accept();
-                DataInputStream input = new DataInputStream(mySocket.getInputStream());
-                int mensaje = input.readInt();
-                System.out.println("A comunication le llego un " + mensaje);
-                mySocket.close();
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(Simulator.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+    public void run() {
     }
 
 }

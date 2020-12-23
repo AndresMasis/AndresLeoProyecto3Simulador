@@ -89,7 +89,7 @@ public final class Screen extends javax.swing.JFrame {
                         screenLab[fila][columna].setIcon(new ImageIcon(getClass().getResource("/imagen/black.png")));                                  
                     }
                     else if (screen[fila][columna] == 2){
-                        screenLab[fila][columna].setIcon(new ImageIcon(getClass().getResource("/imagen/read.png")));  
+                        screenLab[fila][columna].setIcon(new ImageIcon(getClass().getResource("/imagen/red.png")));  
                     }
                     else if (screen[fila][columna] == 3){
                         screenLab[fila][columna].setIcon(new ImageIcon(getClass().getResource("/imagen/lime.png")));;

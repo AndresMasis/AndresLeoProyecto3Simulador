@@ -27,11 +27,6 @@ public class Pacman {
     }
     
     void basePac(){
-        try{
-        server = new ServerSocket(9999);
-        } catch (IOException ex) {
-            Logger.getLogger(Pacman.class.getName()).log(Level.SEVERE, null, ex);
-        }
         int fil = 0;
         int colum = 0;   
         while (colum != 50){
@@ -138,12 +133,12 @@ public class Pacman {
     
     
     public Pacman(){
+        try{
+            server = new ServerSocket(9999);
+        } catch (IOException ex) {
+            Logger.getLogger(Pacman.class.getName()).log(Level.SEVERE, null, ex);
+        }
         basePac();
-    }
-    
-    public int block(){
-    
-        return 0;
     }
     
     public void action(int code){            
@@ -214,32 +209,3 @@ public class Pacman {
     }
 
 }
-
-/*
-
-
-        JSONArray json2 = new JSONArray(json1);                // convertimos en array
-
-        
-        JSONObject objeto3 = json2.getJSONObject(0);           // ahora un objeto json
-        JSONArray precio = objeto3.getJSONArray("products");                  //buscamos el array de productos
-        
-        for(int i = 0; i <= 19; i++)
-{
-        JSONObject precio2 = (JSONObject) precio.get(i);
-                      
-        JSONObject reviews = (JSONObject) precio2.get("reviews");                  //buscamos reviews
-        int reviewsNum = (int) reviews.get("total_reviews");                  //buscamos current_price
-          
-        while (reviewsNum > 100){        
-            reviewsNum = reviewsNum/2;
-        }
-       
-       this.listPrecio[i]= ((reviewsNum*2)/5)+15;
-       this.listReviews[i]= (reviewsNum/2)+13;
-       }
-        
-    }
-}
-
-*/
